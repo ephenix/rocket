@@ -1,15 +1,9 @@
-import sys
-import pygame
-from rocket import rocket
-from distancemarkers import distancemarkers
 from world import world
-
-game_state = 'run'
-clock = pygame.time.Clock()
+import pygame
 
 world1 = world()
-rocket1 = rocket( world1 )
-distancemarkers1 = distancemarkers( world1 )
+game_state = 'run'
+clock = pygame.time.Clock()
 
 while game_state == 'run':
     clock.tick(60)
@@ -19,13 +13,7 @@ while game_state == 'run':
         if event.type == pygame.QUIT:
             game_state = 'quit'
 
-    world1.draw()
-    rocket1.draw()
-    distancemarkers1.draw( )
-
-
     currentcontrols = pygame.key.get_pressed()
-
 
     if currentcontrols[pygame.K_UP]:
         world1.camera_offset[1] = world1.camera_offset[1] + ( 5.0 / world1.camera_zoom )
@@ -43,6 +31,6 @@ while game_state == 'run':
         world1.camera_zoom = world1.camera_zoom * 1.01
         world1.camera_offset[0] = world1.camera_offset[0] * 0.99
         world1.camera_offset[1] = world1.camera_offset[1] * 0.99
-
-
-    pygame.display.flip()
+            
+    
+    world1.draw()

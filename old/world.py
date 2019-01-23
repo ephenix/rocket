@@ -16,7 +16,6 @@ class world:
     small_font = pygame.font.SysFont('Arial', 8)
 
     units_per_km = 300.0
-    origin_index = 1
 
     camera_zoom = 1.0
     camera_offset = []
@@ -24,8 +23,10 @@ class world:
     
     def __init__ ( self, size = [ 1500, 700 ] ):
         self.screen = pygame.display.set_mode( size )
-        self.camera_offset = [ -200, -1 * size[1]/2 ]
+        self.camera_offset = [ -200, size[1]/2 ]
         self.generate_screen()
+        self.generate_screen()
+        self.generate_screen(-1)
 
     def generate_screen ( self, direction = 1 ):
         
@@ -61,7 +62,6 @@ class world:
                 self.horizon_data.append( [ -1 * segment_size, current_y ] )
             if direction == -1:
                 self.horizon_data.insert( 0, [ x, current_y ] )
-                self.origin_index = self.origin_index + 1
             elif direction == 1:
                 self.horizon_data.append( [ x, current_y ] )
             
@@ -72,8 +72,8 @@ class world:
         
         points_in_view = []
         for point in self.horizon_data:
-            x1 = ( point[0] * self.camera_zoom ) - self.camera_offset[0]
-            y1 = ( point[1] * self.camera_zoom ) - self.camera_offset[1]  
+            x1 = ( point[0] - self.camera_offset[0] ) * self.camera_zoom
+            y1 = ( point[1] + self.camera_offset[1] ) * self.camera_zoom
             if ( screen_x * 2 ) > x1 > ( screen_x * -1 ) :
                 if ( screen_y * 2 ) > y1 > ( screen_y * -1 ) :
                     points_in_view.append( [ x1, y1 ] )
@@ -83,6 +83,42 @@ class world:
                     if index < 20:
                         self.generate_screen(-1)
 
-        points_in_view.append( [ screen_x, screen_y - 35 ] )
-        points_in_view.append( [ 0, screen_y - 35 ] )
+        points_in_view.append( [ screen_x, screen_y ] )
+        points_in_view.append( [ 0, screen_y ] )
         pygame.draw.polygon( self.screen, self.colors['grey'], points_in_view )
+
+        #draw distance markers
+
+        marker_effective_distance = self.units_per_km * self.camera_zoom
+        num_markers = self.screen.get_size()[0] / marker_effective_distance
+        
+        start_x = self.camera_offset[0] - ( self.camera_offset[0] % self.units_per_km )
+        x_list = []
+        for i in range( int( num_markers ) + 2 ) :
+            x1 = start_x + ( i * self.units_per_km )
+            x_list.append( x1 )
+
+        pygame.draw.rect( self.screen, self.colors['dark_grey'], [0,screen_y, screen_x, -35])
+        pygame.draw.line( self.screen, self.colors['white'], [ 0, screen_y - 35], [screen_x, screen_y - 35] ) 
+
+        for x in x_list:
+            x1 = ( x - self.camera_offset[0] ) * self.camera_zoom
+            rect = [ x1, screen_y, 5, -15 ]
+            pygame.draw.rect( self.screen, self.colors['white'], rect)
+            
+            distance_text = str( int( x / 200 ) ) + " km"
+
+            text_surface = self.small_font.render( distance_text, True, self.colors['white'] )
+            self.screen.blit( text_surface, [ x1 - 5, screen_y - 34 ] )
+            
+            
+        pygame.display.flip()
+
+
+
+        
+
+        
+        
+
+
