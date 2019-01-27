@@ -11,7 +11,7 @@ class rocket:
         self.world = world
         origin = self.world.horizon_data[self.world.origin_index]
         self.position[0] = origin[0]
-        self.position[1] = origin[1]
+        self.position[1] = origin[1] + ( self.rocket_size )
 
     def draw ( self ):
         point_list = [
@@ -27,11 +27,11 @@ class rocket:
         for point in point_list:
             zoom = self.world.camera_zoom
             offset = self.world.camera_offset
+            transformed_point = [ ( point[0] - offset[0] ) * zoom, ( point[1] - offset[1] ) * zoom ]
             rotated_point = [ 
-                ( math.cos( self.angle ) * ( point[0] - self.position[0] ) - math.sin( self.angle ) * ( point[1] - self.position[1] ) + self.position[0] ),
-                ( math.sin( self.angle ) * ( point[0] - self.position[0] ) + math.cos( self.angle ) * ( point[1] - self.position[1] ) + self.position[1] )
+                ( math.cos( self.angle ) * ( transformed_point[0] - self.position[0] ) - math.sin( self.angle ) * ( transformed_point[1] - self.position[1] ) + self.position[0] ),
+                ( math.sin( self.angle ) * ( transformed_point[0] - self.position[0] ) + math.cos( self.angle ) * ( transformed_point[1] - self.position[1] ) + self.position[1] )
             ]
-            transformedpoint = [ ( rotated_point[0] * zoom ) - offset[0], ( rotated_point[1] * zoom ) - offset[1] ]
-            transformed_points.append( transformedpoint )
+            transformed_points.append( rotated_point )
 
         pygame.draw.polygon( self.world.screen, self.world.colors['white'], transformed_points )

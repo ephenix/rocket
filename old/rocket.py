@@ -100,7 +100,7 @@ class rocket:
 
     #velocity = v0 + at
     velocity_x = self.velocity_vector[0] + ( acceleration_vector[0] * timespan )
-    velocity_y = self.velocity_vector[1] + ( acceleration_vector[1] * timespan )
+    velocity_y = self.velocity_vector[1] - ( acceleration_vector[1] * timespan )
 
     self.velocity_vector[0] = velocity_x
     self.velocity_vector[1] = velocity_y
