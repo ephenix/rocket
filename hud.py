@@ -27,7 +27,7 @@ class HUD:
         pygame.draw.rect( screen, (128,128,128), [self.position[0], self.position[1], self.size[0], self.size[1]] ) 
         
         elements = [
-            "Altitude:     " + str ( round ( -1 * rocket.position[1], 1 ) ) + " m",
+            "Altitude:     " + str ( round ( -1 * rocket.altitude, 1 ) ) + " m",
             "Velocity:     " + str ( round ( rocket.velocity, 1 ) ) + " m/s",
             "Angle:        " + str ( round( rocket.angle_deg, 1 ) ) + "°",
             "Angular Vel:  " + str ( round( math.degrees( rocket.angular_velocity ), 1 ) ) + "°/s",

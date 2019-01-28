@@ -35,6 +35,7 @@ class Rocket:
         self.is_accelerating = False
         self.is_boosting = False
         self.is_exploded = False
+        self.altitude = 0.0
     
     def accelerate ( self, throttle, turn, timespan ):
         if self.fuel > 0.0:
@@ -87,7 +88,7 @@ class Rocket:
         rotated = self.get_rotation( [new_x, new_y] )
 
         collision_detected = False
-        if ( new_y > -500 ):
+        if ( self.altitude > self.size * -5 ):
             for p in range ( len( rotated ) ):
                 point1 = rotated[p]
                 if p >= len(rotated)-1:
@@ -145,12 +146,22 @@ class Rocket:
         else:
             return False
 
+    def get_altitude ( self, terrain ):
+        rotated = self.get_rotation()
+        rotated.sort( key = lambda x: x[1] )
+        lowestpoint =  rotated[0][1]
+        
+        i = int ( terrain.originindex + ( self.position[0] / terrain.segment_size ) )
+        groundlevel = terrain.horizon[i][1]
+        self.altitude = lowestpoint - groundlevel
+
     def update ( self, turn, accelerate, world ):
         currenttime = time.time()
         timespan = min( 0.5, ( currenttime - self.lastupdate ) * self.time_multiplier )
         self.lastupdate = currenttime
         self.accelerate( accelerate, turn, timespan )
         self.move( timespan, world.terrain )
+        self.get_altitude( world.terrain )
     
     def draw ( self, camera ):
         if self.is_exploded == False:

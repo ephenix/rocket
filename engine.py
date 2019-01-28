@@ -51,6 +51,10 @@ while game_state == 'run':
         zoomlevel = 1.0 + 0.5 * ( ( rocket.position[1] + 250 ) / 250 )
     elif ( 500 <= -rocket.position[1] <= 2000 ):
         zoomlevel = 0.5 + 0.4 * ( ( rocket.position[1] + 500 ) / 1500 )
+    
+    zoomlevel = max( 0.2 , min( zoomlevel, 1.0 - ( rocket.velocity / 500 ) ) )
+
+    
     world.camera.zoom = zoomlevel
     
 

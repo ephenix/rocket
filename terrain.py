@@ -36,7 +36,7 @@ class Terrain:
             pygame.draw.lines( camera.screen, (0,200,50), False, terrain_transformed )
 
     def generate ( self, dir ):
-        variation = random.randint(-30, 30)
+        variation = random.randint(-self.ruggedness, self.ruggedness)
         if dir == 1:
             frompoint = self.horizon[-1]
             topoint   = [ ( frompoint[0] + self.segment_size ), ( frompoint[1] + variation )]
