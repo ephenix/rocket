@@ -5,10 +5,14 @@ python3 engine.py
 ```
 
 ### Controls:
-  Up: Accellerate
-  Left/Right: Turn boosters
-  Down: Counter-Turn boosters (acellerate opposite from theta until angular velocity == 0)
-  Shift: Boost (consumes more fuel, produces more thrust)
+
+Up: Accellerate
+
+Left/Right: Turn boosters
+ 
+Down: Counter-Turn boosters (acellerate opposite from theta until angular velocity == 0)
+ 
+Shift: Boost (consumes more fuel, produces more thrust)
   
   
 ### Known issues:
