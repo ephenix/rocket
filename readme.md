@@ -6,15 +6,16 @@ python3 engine.py
 
 ### Controls:
 
-Up: Accellerate
+Up: Boost
 
-Left/Right: Turn boosters
+Left/Right: Boost (Angular)
  
-Down: Counter-Turn boosters (acellerate opposite from theta until angular velocity == 0)
+Down: Counter-Turn (acellerate opposite from theta until angular velocity == 0)
  
 Shift: Boost (consumes more fuel, produces more thrust)
   
-  
+Space: Restart 
+
 ### Known issues:
 
 * collision isn't working properly
